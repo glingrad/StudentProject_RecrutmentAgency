@@ -1,0 +1,42 @@
+﻿<Page x:Class="RecruitmentAgency.PageManager.PageClientForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Данные клиента">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleBlock" Text="Новый клиент" FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Grid.Row="0" Margin="0,10,0,20"/>
+
+        <TextBlock Text="Название компании:" Grid.Row="1" Margin="5"/>
+        <TextBox x:Name="TbCompany" Grid.Row="2" Height="30" Margin="5"/>
+
+        <TextBlock Text="Контактное лицо:" Grid.Row="3" Margin="5"/>
+        <TextBox x:Name="TbContactPerson" Grid.Row="4" Height="30" Margin="5"/>
+
+        <TextBlock Text="Телефон:" Grid.Row="5" Margin="5"/>
+        <TextBox x:Name="TbPhone" Grid.Row="6" Height="30" Margin="5"/>
+
+        <TextBlock Text="Email:" Grid.Row="7" Margin="5"/>
+        <TextBox x:Name="TbEmail" Grid.Row="8" Height="30" Margin="5"/>
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+            <Button x:Name="BtnSave" Content="Сохранить" Click="BtnSave_Click" 
+                    Height="35" Width="120" Margin="5"/>
+            <Button Content="Отмена" Click="BtnCancel_Click" 
+                    Height="35" Width="100" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Page>

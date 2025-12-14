@@ -1,0 +1,39 @@
+﻿<Page x:Class="RecruitmentAgency.PageAdmin.PageAuditLog"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RecruitmentAgency.PageAdmin"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="PageAuditLog">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Журнал аудита" FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,20,0,0"/>
+
+        <DataGrid x:Name="DgAuditLogs" Grid.Row="1" Margin="20" 
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  SelectionMode="Single" SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата и время" Binding="{Binding ActionDateTime}" Width="150"/>
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" Width="200"/>
+                <DataGridTextColumn Header="Действие" Binding="{Binding ActionName}" Width="150"/>
+                <DataGridTextColumn Header="Детали" Binding="{Binding Details}" Width="*"/>
+                <DataGridTextColumn Header="IP-адрес" Binding="{Binding IpAddress}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+            <Button x:Name="BtnBack" Style="{StaticResource PrimaryButtonStyle}" Content="Назад" Width="120" Height="35"
+                    Click="BtnBack_Click" Margin="10"/>
+        </StackPanel>
+    </Grid>
+</Page>

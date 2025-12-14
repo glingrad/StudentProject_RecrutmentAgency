@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RecruitmentAgencyModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuditActions">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditLogs">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ActionId" Type="int" Nullable="false" />
+          <Property Name="ActionDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Details" Type="nvarchar(max)" />
+          <Property Name="IpAddress" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="BackupLocations">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationPath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Backups">
+          <Key>
+            <PropertyRef Name="BackupId" />
+          </Key>
+          <Property Name="BackupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SizeMB" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="IsSuccessful" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClientContacts">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="ContactTypeId" Type="int" Nullable="false" />
+          <Property Name="ContactValue" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsPrimary" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ManagerId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactTypes">
+          <Key>
+            <PropertyRef Name="ContactTypeId" />
+          </Key>
+          <Property Name="ContactTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCategories">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+          </Key>
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="User_Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="UserCategory" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="IsFirstLogin" Type="bit" Nullable="false" />
+          <Property Name="IsBlocked" Type="bit" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AuditLogs__Actio__245D67DE">
+          <End Role="AuditActions" Type="Self.AuditActions" Multiplicity="1" />
+          <End Role="AuditLogs" Type="Self.AuditLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditActions">
+              <PropertyRef Name="ActionId" />
+            </Principal>
+            <Dependent Role="AuditLogs">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AuditLogs__UserI__236943A5">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="AuditLogs" Type="Self.AuditLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuditLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Backups__Created__43D61337">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Backups" Type="Self.Backups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Backups">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Backups__Locatio__45BE5BA9">
+          <End Role="BackupLocations" Type="Self.BackupLocations" Multiplicity="1" />
+          <End Role="Backups" Type="Self.Backups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BackupLocations">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Backups">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientCon__Clien__2FCF1A8A">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="ClientContacts" Type="Self.ClientContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="ClientContacts">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientCon__Conta__30C33EC3">
+          <End Role="ContactTypes" Type="Self.ContactTypes" Multiplicity="1" />
+          <End Role="ClientContacts" Type="Self.ClientContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactTypes">
+              <PropertyRef Name="ContactTypeId" />
+            </Principal>
+            <Dependent Role="ClientContacts">
+              <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Clients__Manager__282DF8C2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__UserCateg__4316F928">
+          <End Role="UserCategories" Type="Self.UserCategories" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCategories">
+              <PropertyRef Name="CategoryName" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище RecruitmentAgencyModelContainer">
+          <EntitySet Name="AuditActions" EntityType="Self.AuditActions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditLogs" EntityType="Self.AuditLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BackupLocations" EntityType="Self.BackupLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Backups" EntityType="Self.Backups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientContacts" EntityType="Self.ClientContacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCategories" EntityType="Self.UserCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AuditLogs__Actio__245D67DE" Association="Self.FK__AuditLogs__Actio__245D67DE">
+            <End Role="AuditActions" EntitySet="AuditActions" />
+            <End Role="AuditLogs" EntitySet="AuditLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AuditLogs__UserI__236943A5" Association="Self.FK__AuditLogs__UserI__236943A5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLogs" EntitySet="AuditLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Backups__Created__43D61337" Association="Self.FK__Backups__Created__43D61337">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Backups" EntitySet="Backups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Backups__Locatio__45BE5BA9" Association="Self.FK__Backups__Locatio__45BE5BA9">
+            <End Role="BackupLocations" EntitySet="BackupLocations" />
+            <End Role="Backups" EntitySet="Backups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientCon__Clien__2FCF1A8A" Association="Self.FK__ClientCon__Clien__2FCF1A8A">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="ClientContacts" EntitySet="ClientContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientCon__Conta__30C33EC3" Association="Self.FK__ClientCon__Conta__30C33EC3">
+            <End Role="ContactTypes" EntitySet="ContactTypes" />
+            <End Role="ClientContacts" EntitySet="ClientContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Clients__Manager__282DF8C2" Association="Self.FK__Clients__Manager__282DF8C2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__UserCateg__4316F928" Association="Self.FK__Users__UserCateg__4316F928">
+            <End Role="UserCategories" EntitySet="UserCategories" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RecruitmentAgencyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuditActions">
+          <Key>
+            <PropertyRef Name="ActionId" />
+          </Key>
+          <Property Name="ActionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AuditLogs" Relationship="Self.FK__AuditLogs__Actio__245D67DE" FromRole="AuditActions" ToRole="AuditLogs" />
+        </EntityType>
+        <EntityType Name="AuditLogs">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ActionId" Type="Int32" Nullable="false" />
+          <Property Name="ActionDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IpAddress" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AuditActions" Relationship="Self.FK__AuditLogs__Actio__245D67DE" FromRole="AuditLogs" ToRole="AuditActions" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__AuditLogs__UserI__236943A5" FromRole="AuditLogs" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="BackupLocations">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Backups" Relationship="Self.FK__Backups__Locatio__45BE5BA9" FromRole="BackupLocations" ToRole="Backups" />
+        </EntityType>
+        <EntityType Name="Backups">
+          <Key>
+            <PropertyRef Name="BackupId" />
+          </Key>
+          <Property Name="BackupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SizeMB" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="IsSuccessful" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BackupLocations" Relationship="Self.FK__Backups__Locatio__45BE5BA9" FromRole="Backups" ToRole="BackupLocations" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Backups__Created__43D61337" FromRole="Backups" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ClientContacts">
+          <Key>
+            <PropertyRef Name="ContactId" />
+          </Key>
+          <Property Name="ContactId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="ContactTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ContactValue" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsPrimary" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__ClientCon__Clien__2FCF1A8A" FromRole="ClientContacts" ToRole="Clients" />
+          <NavigationProperty Name="ContactTypes" Relationship="Self.FK__ClientCon__Conta__30C33EC3" FromRole="ClientContacts" ToRole="ContactTypes" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ManagerId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ClientContacts" Relationship="Self.FK__ClientCon__Clien__2FCF1A8A" FromRole="Clients" ToRole="ClientContacts" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Clients__Manager__282DF8C2" FromRole="Clients" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ContactTypes">
+          <Key>
+            <PropertyRef Name="ContactTypeId" />
+          </Key>
+          <Property Name="ContactTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ClientContacts" Relationship="Self.FK__ClientCon__Conta__30C33EC3" FromRole="ContactTypes" ToRole="ClientContacts" />
+        </EntityType>
+        <EntityType Name="UserCategories">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+          </Key>
+          <Property Name="CategoryName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__UserCateg__4316F928" FromRole="UserCategories" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="User_Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserCategory" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="IsFirstLogin" Type="Boolean" Nullable="false" />
+          <Property Name="IsBlocked" Type="Boolean" Nullable="false" />
+          <Property Name="FailedLoginAttempts" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AuditLogs" Relationship="Self.FK__AuditLogs__UserI__236943A5" FromRole="Users" ToRole="AuditLogs" />
+          <NavigationProperty Name="Backups" Relationship="Self.FK__Backups__Created__43D61337" FromRole="Users" ToRole="Backups" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Clients__Manager__282DF8C2" FromRole="Users" ToRole="Clients" />
+          <NavigationProperty Name="UserCategories" Relationship="Self.FK__Users__UserCateg__4316F928" FromRole="Users" ToRole="UserCategories" />
+        </EntityType>
+        <Association Name="FK__AuditLogs__Actio__245D67DE">
+          <End Role="AuditActions" Type="Self.AuditActions" Multiplicity="1" />
+          <End Role="AuditLogs" Type="Self.AuditLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AuditActions">
+              <PropertyRef Name="ActionId" />
+            </Principal>
+            <Dependent Role="AuditLogs">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AuditLogs__UserI__236943A5">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="AuditLogs" Type="Self.AuditLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuditLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Backups__Locatio__45BE5BA9">
+          <End Role="BackupLocations" Type="Self.BackupLocations" Multiplicity="1" />
+          <End Role="Backups" Type="Self.Backups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BackupLocations">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Backups">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Backups__Created__43D61337">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Backups" Type="Self.Backups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Backups">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientCon__Clien__2FCF1A8A">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
+          <End Role="ClientContacts" Type="Self.ClientContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="ClientContacts">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientCon__Conta__30C33EC3">
+          <End Role="ContactTypes" Type="Self.ContactTypes" Multiplicity="1" />
+          <End Role="ClientContacts" Type="Self.ClientContacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactTypes">
+              <PropertyRef Name="ContactTypeId" />
+            </Principal>
+            <Dependent Role="ClientContacts">
+              <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Clients__Manager__282DF8C2">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ManagerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__UserCateg__4316F928">
+          <End Role="UserCategories" Type="Self.UserCategories" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserCategories">
+              <PropertyRef Name="CategoryName" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RecruitmentAgencyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditActions" EntityType="Self.AuditActions" />
+          <EntitySet Name="AuditLogs" EntityType="Self.AuditLogs" />
+          <EntitySet Name="BackupLocations" EntityType="Self.BackupLocations" />
+          <EntitySet Name="Backups" EntityType="Self.Backups" />
+          <EntitySet Name="ClientContacts" EntityType="Self.ClientContacts" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactTypes" />
+          <EntitySet Name="UserCategories" EntityType="Self.UserCategories" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK__AuditLogs__Actio__245D67DE" Association="Self.FK__AuditLogs__Actio__245D67DE">
+            <End Role="AuditActions" EntitySet="AuditActions" />
+            <End Role="AuditLogs" EntitySet="AuditLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AuditLogs__UserI__236943A5" Association="Self.FK__AuditLogs__UserI__236943A5">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AuditLogs" EntitySet="AuditLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Backups__Locatio__45BE5BA9" Association="Self.FK__Backups__Locatio__45BE5BA9">
+            <End Role="BackupLocations" EntitySet="BackupLocations" />
+            <End Role="Backups" EntitySet="Backups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Backups__Created__43D61337" Association="Self.FK__Backups__Created__43D61337">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Backups" EntitySet="Backups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientCon__Clien__2FCF1A8A" Association="Self.FK__ClientCon__Clien__2FCF1A8A">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="ClientContacts" EntitySet="ClientContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientCon__Conta__30C33EC3" Association="Self.FK__ClientCon__Conta__30C33EC3">
+            <End Role="ContactTypes" EntitySet="ContactTypes" />
+            <End Role="ClientContacts" EntitySet="ClientContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Clients__Manager__282DF8C2" Association="Self.FK__Clients__Manager__282DF8C2">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__UserCateg__4316F928" Association="Self.FK__Users__UserCateg__4316F928">
+            <End Role="UserCategories" EntitySet="UserCategories" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RecruitmentAgencyModelContainer" CdmEntityContainer="RecruitmentAgencyEntities">
+          <EntitySetMapping Name="AuditActions">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.AuditActions">
+              <MappingFragment StoreEntitySet="AuditActions">
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditLogs">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.AuditLogs">
+              <MappingFragment StoreEntitySet="AuditLogs">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="ActionDateTime" ColumnName="ActionDateTime" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BackupLocations">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.BackupLocations">
+              <MappingFragment StoreEntitySet="BackupLocations">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="LocationPath" ColumnName="LocationPath" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Backups">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.Backups">
+              <MappingFragment StoreEntitySet="Backups">
+                <ScalarProperty Name="BackupId" ColumnName="BackupId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="SizeMB" ColumnName="SizeMB" />
+                <ScalarProperty Name="IsSuccessful" ColumnName="IsSuccessful" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientContacts">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.ClientContacts">
+              <MappingFragment StoreEntitySet="ClientContacts">
+                <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ContactTypeId" ColumnName="ContactTypeId" />
+                <ScalarProperty Name="ContactValue" ColumnName="ContactValue" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactTypes">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.ContactTypes">
+              <MappingFragment StoreEntitySet="ContactTypes">
+                <ScalarProperty Name="ContactTypeId" ColumnName="ContactTypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCategories">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.UserCategories">
+              <MappingFragment StoreEntitySet="UserCategories">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RecruitmentAgencyModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="UserCategory" ColumnName="UserCategory" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IsFirstLogin" ColumnName="IsFirstLogin" />
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+                <ScalarProperty Name="FailedLoginAttempts" ColumnName="FailedLoginAttempts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

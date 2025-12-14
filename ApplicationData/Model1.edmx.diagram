@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e2cdbfcbc3744f1b8fed9e8d8d92aa96" Name="Diagram1" ZoomLevel="75">
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.AuditActions" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.AuditLogs" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.BackupLocations" Width="1.5" PointX="7.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.Backups" Width="1.5" PointX="7.125" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.ClientContacts" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.Clients" Width="1.5" PointX="3.125" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.ContactTypes" Width="1.5" PointX="7.125" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.UserCategories" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecruitmentAgencyModel.Users" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__AuditLogs__Actio__245D67DE" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__AuditLogs__UserI__236943A5" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__Backups__Locatio__45BE5BA9" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__Backups__Created__43D61337" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__ClientCon__Clien__2FCF1A8A" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__ClientCon__Conta__30C33EC3" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__Clients__Manager__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="RecruitmentAgencyModel.FK__Users__UserCateg__4316F928" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
